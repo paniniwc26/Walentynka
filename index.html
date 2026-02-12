@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+  <meta charset="UTF-8">
+  <title>Walentynka</title>
+  <style>
+    /* ======= Tło i body ======= */
+    body {
+      margin: 0;
+      height: 100vh;
+      background: linear-gradient(135deg, #1e1e2f, #2b2b45);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      overflow: hidden;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    /* ======= Karta ======= */
+    .card {
+      background: white;
+      padding: 40px;
+      border-radius: 20px;
+      width: 360px;
+      text-align: center;
+      box-shadow: 0 15px 40px rgba(0,0,0,0.2);
+      z-index: 2;
+      animation: fadeIn 1.5s ease;
+    }
+
+    .title {
+      margin-bottom: 10px;
+      font-size: 24px;
+    }
+
+    input {
+      margin-top: 20px;
+      padding: 12px;
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 15px;
+      padding: 12px;
+      width: 100%;
+      background: #ff4d6d;
+      border: none;
+      color: white;
+      font-size: 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #e63956;
+      transform: scale(1.05);
+    }
+
+    .secret {
+      display: none;
+      margin-top: 20px;
+      color: #e63956;
+      animation: reveal 1s ease forwards;
+      position: relative;
+      z-index: 2;
+      text-align: left;
+      white-space: pre-line; /* utrzymuje nowe linie w treści */
+    }
+
+    /* ======= Animacje ======= */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes reveal {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* ======= Serduszka ======= */
+    #confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="hearts"></div>
+
+  <div class="card">
+    <h2 class="title">🔐 Tajemnica</h2>
+    <p>Odkryj moją wiadomość wpisując odpowiednie hasło.</p>
+    
+    <input type="password" id="password" placeholder="Wpisz hasło">
+    <button onclick="checkPassword()">Odkryj</button>
+
+    <div class="secret" id="secret">
+      <p id="secretText"></p>
+      <canvas id="confetti"></canvas>
+    </div>
+  </div>
+
+  <script>
+    // ====== HASŁO I WIADOMOŚĆ ======
+    const correctPassword = "wsparcie";
+
+    const message = `Cześć [jej imię],
+
+Chciałem Ci powiedzieć wszystko, co myślę od dawna.  
+Od momentu, kiedy zaczęliśmy rozmawiać w 2022 roku, wiedziałem, że jesteś kimś wyjątkowym.  
+Pamiętam naszą pierwszą wiadomość 14 lutego 2023 – i choć to był zwykły dzień, dla mnie stał się początkiem czegoś ważnego.  
+Pamiętam też nasze wspólne wyjście 31 grudnia do Galerii Morena – tam poczułem, że naprawdę chcę Cię lepiej poznać.
+
+Chcę, żebyś wiedziała, że zawsze chcę Cię wspierać, niezależnie od wszystkiego.  
+Jesteś dla mnie kimś bardzo wyjątkowym i zależy mi na Tobie więcej niż potrafię wyrazić słowami.
+
+[Tu możesz dodać wszystkie swoje uczucia, wspomnienia, marzenia i wszystko, co chcesz jej powiedzieć]`;
+
+    // ====== SPRAWDZANIE HASŁA ======
+    let unlocked = false;
+
+    function checkPassword() {
+      if (unlocked) return;
+
+      const input = document.getElementById("password").value;
+
+      if (input.toLowerCase() === correctPassword) {
+        unlocked = true;
+
+        document.getElementById("secret").style.display = "block";
+        document.getElementById("password").disabled = true;
+        document.querySelector("button").disabled = true;
+
+        startTypewriter();
+        startHearts();
+      } else {
+        shakeCard();
+      }
+    }
+
+    // ====== DELIKATNE POTRZĄŚNIĘCIE PRZY BŁĘDZIE ======
+    function shakeCard() {
+      const card = document.querySelector(".card");
+      card.style.transition = "0.2s";
+      card.style.transform = "translateX(-5px)";
+      setTimeout(() => card.style.transform = "translateX(5px)", 100);
+      setTimeout(() => card.style.transform = "translateX(0)", 200);
+    }
+
+    // ====== EFEKT MASZYNY DO PISANIA ======
+    function startTypewriter() {
+      const textElement = document.getElementById("secretText");
+      let index = 0;
+
+      function type() {
+        if (index < message.length) {
+          textElement.innerHTML += message.charAt(index);
+          index++;
+          setTimeout(type, 35);
+        }
+      }
+
+      type();
+    }
+
+    // ====== SUBTELNE LATAJĄCE SERCA ======
+    function startHearts() {
+      const canvas = document.getElementById("confetti");
+      const ctx = canvas.getContext("2d");
+
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+
+      const hearts = [];
+      const colors = ["#ff4d6d", "#ff758f", "#ffffff", "#e63946"];
+
+      for (let i = 0; i < 50; i++) {
+        hearts.push({
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          size: Math.random() * 10 + 8,
+          speed: Math.random() * 1.2 + 0.4,
+          opacity: Math.random() * 0.5 + 0.3,
+          color: colors[Math.floor(Math.random() * colors.length)]
+        });
+      }
+
+      function drawHeart(x, y, size, color, opacity) {
+        ctx.globalAlpha = opacity;
+        ctx.fillStyle = color;
+
+        ctx.beginPath();
+        ctx.moveTo(x, y);
+        ctx.bezierCurveTo(
+          x - size / 2, y - size / 2,
+          x - size, y + size / 3,
+          x, y + size
+        );
+        ctx.bezierCurveTo(
+          x + size, y + size / 3,
+          x + size / 2, y - size / 2,
+          x, y
+        );
+        ctx.fill();
+
+        ctx.globalAlpha = 1;
+      }
+
+      function update() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        hearts.forEach(h => {
+          h.y += h.speed;
+
+          if (h.y > canvas.height + 20) {
+            h.y = -20;
+            h.x = Math.random() * canvas.width;
+          }
+
+          drawHeart(h.x, h.y, h.size, h.color, h.opacity);
+        });
+
+        requestAnimationFrame(update);
+      }
+
+      update();
+    }
+  </script>
+</body>
+</html>
