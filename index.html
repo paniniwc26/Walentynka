@@ -2,8 +2,7 @@
 <html lang="pl">
 <head>
 <meta charset="UTF-8">
-<title>Dla Ciebie</title>
-
+<title>Walentynka dla Idy</title>
 <style>
 body {
   margin: 0;
@@ -92,7 +91,6 @@ canvas {
 }
 </style>
 </head>
-
 <body>
 
 <div class="card" id="card">
@@ -106,50 +104,48 @@ canvas {
 <canvas id="hearts"></canvas>
 
 <script>
-
 const correctPassword = "wsparcie";
 
-const messageText = Hej Ida,
+const messageText = `Hej Ida,
 
-Jeśli to czytasz, to pewnie już domyśliłaś się, że ta walentynka została zrobiona przeze mnie.
+Jeśli to czytasz, to pewnie już domyśliłaś się, że ta walentynka została zrobiona przeze mnie.  
 Chciałem w końcu powiedzieć Ci wszystko, co czuję już od naprawdę długiego czasu.
 
-Jesteś najważniejszą osobą w moim życiu.
+Jesteś najważniejszą osobą w moim życiu.  
 Zawsze potrafiłaś we mnie uwierzyć, nawet wtedy, kiedy ja sam w siebie nie wierzyłem. Dzięki Tobie wiele razy wstałem wtedy, kiedy najchętniej bym odpuścił.
 
 Mieliśmy swoje kłótnie, były momenty, w których zachowywałem się głupio albo reagowałem nie tak, jak powinienem. I wiem o tym. Ale chcę, żebyś wiedziała jedno — to nigdy nie było obojętnością. To zawsze wynikało z tego, że naprawdę mi na Tobie zależy. Czasem aż za bardzo i po prostu nie umiałem tego dobrze pokazać.
 
-Wspomnienia z Tobą są dla mnie czymś wyjątkowym.
+Wspomnienia z Tobą są dla mnie czymś wyjątkowym.  
 Czasem wystarczy, że o nich pomyślę, a od razu robi mi się lżej. Przypominają mi, jak dużo dla mnie znaczysz i jak bardzo chciałbym, żebyśmy dalej tworzyli kolejne.
 
 Chcę, żebyś wiedziała, że możesz na mnie liczyć. Tak po prostu. W stu procentach. Bez względu na wszystko.
+
+Bo prawda jest taka, że odkąd jesteś w moim życiu, nic już nie jest dla mnie „po prostu zwykłe”.
 
 Nie jestem w stanie dłużej trzymać tego w sobie. Może to odważne, może trochę szalone, może nawet głupie… ale wolę spróbować, niż kiedyś żałować, że nic nie powiedziałem.
 
 Dlatego chcę zapytać Cię wprost:
 
-Ida…
+Ida…  
 czy chciałabyś, żebym był Twoim chłopakiem?
 
-Karol 🤍;
+Karol 🤍`;
 
-// Sprawdzenie hasła
+// SPRAWDZENIE HASŁA
 function checkPassword() {
   const input = document.getElementById("password").value.toLowerCase();
   if (input === correctPassword) {
     revealMessage();
   } else {
-    document.getElementById("card").style.transform = "translateX(-5px)";
-    setTimeout(() => {
-      document.getElementById("card").style.transform = "translateX(5px)";
-    }, 100);
-    setTimeout(() => {
-      document.getElementById("card").style.transform = "translateX(0)";
-    }, 200);
+    const card = document.getElementById("card");
+    card.style.transform = "translateX(-5px)";
+    setTimeout(() => { card.style.transform = "translateX(5px)"; }, 100);
+    setTimeout(() => { card.style.transform = "translateX(0)"; }, 200);
   }
 }
 
-// Odkrywanie wiadomości
+// ODKRYWANIE WIADOMOŚCI
 function revealMessage() {
   document.body.style.background = "radial-gradient(circle at center, #ff758f, #2b2b45 70%)";
   document.getElementById("card").style.opacity = "0";
@@ -170,7 +166,7 @@ function revealMessage() {
   startHearts();
 }
 
-// Subtelne serca
+// SUBTELNE SERCA
 function startHearts() {
   const canvas = document.getElementById("hearts");
   const ctx = canvas.getContext("2d");
@@ -179,7 +175,6 @@ function startHearts() {
   canvas.height = window.innerHeight;
 
   const hearts = [];
-
   for (let i = 0; i < 40; i++) {
     hearts.push({
       x: Math.random() * canvas.width,
@@ -216,9 +211,6 @@ function startHearts() {
 
   animate();
 }
-
 </script>
-
 </body>
 </html>
-
